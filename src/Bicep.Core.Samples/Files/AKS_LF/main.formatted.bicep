@@ -9,6 +9,8 @@ param servicePrincipalClientSecret string {
   secure: true
 }
 
+param tsetonsudnifn string
+
 // optional params
 param clusterName string = 'aks101cluster'
 param location string = resourceGroup().location
