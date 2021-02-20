@@ -67,6 +67,15 @@ param servicePrincipalClientSecret string {
 //@[0:1)   RightBrace |}|
 //@[1:3) NewLine |\n\n|
 
+param tsetonsudnifn string
+//@[0:26) ParameterDeclarationSyntax
+//@[0:5)  Identifier |param|
+//@[6:19)  IdentifierSyntax
+//@[6:19)   Identifier |tsetonsudnifn|
+//@[20:26)  TypeSyntax
+//@[20:26)   Identifier |string|
+//@[26:28) NewLine |\n\n|
+
 // optional params
 //@[18:19) NewLine |\n|
 param clusterName string = 'aks101cluster'
@@ -394,4 +403,6 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-03-01' = {
 // fyi - dot property access (aks.fqdn) has not been spec'd
 //@[59:60) NewLine |\n|
 //output controlPlaneFQDN string = aks.properties.fqdn 
-//@[55:55) EndOfFile ||
+//@[55:56) NewLine |\n|
+
+//@[0:0) EndOfFile ||

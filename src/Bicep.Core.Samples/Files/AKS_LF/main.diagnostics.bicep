@@ -9,6 +9,8 @@ param servicePrincipalClientSecret string {
     secure: true
 }
 
+param tsetonsudnifn string
+
 // optional params
 param clusterName string = 'aks101cluster'
 param location string = resourceGroup().location
@@ -59,3 +61,4 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-03-01' = {
 
 // fyi - dot property access (aks.fqdn) has not been spec'd
 //output controlPlaneFQDN string = aks.properties.fqdn 
+

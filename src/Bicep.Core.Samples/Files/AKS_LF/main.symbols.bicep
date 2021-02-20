@@ -14,6 +14,9 @@ param servicePrincipalClientSecret string {
     secure: true
 }
 
+param tsetonsudnifn string
+//@[6:19) Parameter tsetonsudnifn. Type: string. Declaration start char: 0, length: 26
+
 // optional params
 param clusterName string = 'aks101cluster'
 //@[6:17) Parameter clusterName. Type: string. Declaration start char: 0, length: 42
@@ -69,3 +72,4 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-03-01' = {
 
 // fyi - dot property access (aks.fqdn) has not been spec'd
 //output controlPlaneFQDN string = aks.properties.fqdn 
+
