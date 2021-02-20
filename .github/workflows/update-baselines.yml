@@ -22,12 +22,17 @@ jobs:
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1.7.2
+        
+      - name: Configure Git
+        run: |
+          git config user.name "Bicep Automation"
+          git config user.email "bicep@noreply.github.com"
       
       - name: Test
         continue-on-error: true
         run: dotnet test -- 'TestRunParameters.Parameter(name="SetBaseLine", value="true")'
       
-      - name: Commit baselines
+      - name: Commit Baselines
         run: |
           git add .
           if ! git diff-index --quiet HEAD --; then
