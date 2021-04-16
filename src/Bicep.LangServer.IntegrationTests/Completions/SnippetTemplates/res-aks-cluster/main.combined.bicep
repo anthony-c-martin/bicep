@@ -13,7 +13,7 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2021-03-01' = {
         name: 'agentpool'
         count: 3
         vmSize: 'Standard_DS2_v2'
-        osType: 'Linux'
+        osType: 'Windows'
         mode: 'System'
       }
     ]
@@ -29,3 +29,4 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2021-03-01' = {
     }
   }
 }
+
