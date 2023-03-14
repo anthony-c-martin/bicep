@@ -1,6 +1,7 @@
 name: 'Dependabot: Update Dotnet Lockfiles'
 on: 
   pull_request:
+    branches: [main]
     types:
       - opened
       - reopened
