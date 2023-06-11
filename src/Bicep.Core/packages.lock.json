@@ -128,11 +128,11 @@
       },
       "JsonPath.Net": {
         "type": "Direct",
-        "requested": "[0.2.1, )",
-        "resolved": "0.2.1",
-        "contentHash": "jZTc0XzedUWFHlg8GyqPdCfwh87nvGoirOQK677qrh6IxakZ5cgYxdU+4Slo1UpZN9UtfyI2WmsGWFMmvOS5ag==",
+        "requested": "[0.6.2, )",
+        "resolved": "0.6.2",
+        "contentHash": "gwKK3bRqbpaxJTMftd6ziHy1+jZP/oLLjd9aQ4d54A/DqcUU5VRbfi/XjRXbJtLCxccoNAakD4kV5+3qjXOGvg==",
         "dependencies": {
-          "JsonPointer.Net": "2.2.0"
+          "Json.More.Net": "1.8.0"
         }
       },
       "Microsoft.CodeAnalysis.BannedApiAnalyzers": {
@@ -236,8 +236,8 @@
       },
       "Json.More.Net": {
         "type": "Transitive",
-        "resolved": "1.6.0",
-        "contentHash": "bn/agVu1jQ5V0UyMUYD11ZNMkGry5vmfYBGuRPs9SUkcGWTLf6UiVEEeEm8UQiyMQWdJmTEGBRE4DpqPI+4mzQ==",
+        "resolved": "1.8.0",
+        "contentHash": "JWxlYwCSYXZIWezmrvRgaxhI/vEEpQlZVm6/lskuS7p/uPrNJzQxbe2CPjzkF3UUz4RI8WkmObs6ycpxoE9T7w==",
         "dependencies": {
           "System.Text.Json": "6.0.2"
         }
