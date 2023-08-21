@@ -9,6 +9,8 @@ import { aiKey } from '../package.json';
 import './index.css';
 import { initializeInterop } from './lspInterop';
 import { Playground } from './playground';
+import { initServices } from 'monaco-languageclient';
+import { createLanguageClient } from './client';
 
 const insights = new ApplicationInsights({
   config: {
@@ -28,10 +30,19 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-initializeInterop(self)
-  .then(() => ReactDOM.render(
+async function initialize() {
+  await initializeInterop(self);
+
+  await initServices();
+  const client = createLanguageClient();
+  await client.start();
+
+  ReactDOM.render(
     <div className="app-container">
-      <Playground insights={insights} />
+      <Playground insights={insights} client={client} />
     </div>,
     document.getElementById('root')
-  ));
+  );
+}
+
+initialize();

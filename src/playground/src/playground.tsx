@@ -10,9 +10,11 @@ import { copyShareLinkToClipboard, handleShareLink } from './utils';
 import { quickstartsPaths, getQuickstartsLink } from './examples';
 import { decompile } from './lspInterop';
 import { IApplicationInsights } from '@microsoft/applicationinsights-web';
+import { BaseLanguageClient } from 'vscode-languageclient';
 
 interface Props {
   insights: IApplicationInsights,
+  client: BaseLanguageClient,
 }
 
 export const Playground : React.FC<Props> = (props) => {
@@ -141,7 +143,7 @@ export const Playground : React.FC<Props> = (props) => {
       </Container> :
       <>
         <div className="playground-editorpane">
-          <BicepEditor onBicepChange={setBicepContent} onJsonChange={setJsonContent} initialCode={initialContent} />
+          <BicepEditor onBicepChange={setBicepContent} onJsonChange={setJsonContent} client={props.client} initialContent={initialContent} />
         </div>
         <div className="playground-editorpane">
           <JsonEditor content={jsonContent} />

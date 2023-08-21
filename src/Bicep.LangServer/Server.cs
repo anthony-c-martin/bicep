@@ -73,6 +73,7 @@ namespace Bicep.LanguageServer
                     .WithHandler<BicepForceModulesRestoreCommandHandler>()
                     .WithHandler<BicepRegistryCacheRequestHandler>()
                     .WithHandler<InsertResourceHandler>()
+                    .WithHandler<BuildActiveCompilationHandler>()
                     .WithHandler<ConfigurationSettingsHandler>()
                     .WithServices(RegisterServices);
 
