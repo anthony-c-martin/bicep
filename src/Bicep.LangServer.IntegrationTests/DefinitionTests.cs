@@ -216,6 +216,7 @@ module appPlanDeploy2 'wrong|.bicep' = {
             await RunDefinitionScenarioTest(TestContext, text, '|', results => results.Should().SatisfyRespectively(
                 x => x.Should().BeEmpty(),
                 x => x.Should().BeEmpty()));
+            "test".Should().Be("ASdad");
         }
 
         [DataTestMethod]
