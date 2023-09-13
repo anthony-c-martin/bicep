@@ -576,13 +576,12 @@ jobs:
         with:
           flags: dotnet
 
-  publish-test-results:
-    name: "Publish Tests Results (${{ matrix.rid }})"
+  comment-test-summary:
+    name: "PR Comment: Tests Summary"
     needs: test-bicep
     runs-on: ubuntu-latest
     permissions:
       checks: write
-      # only needed unless run with comment_mode: off
       pull-requests: write
     if: always()
 
@@ -617,6 +616,34 @@ jobs:
           check_name: Test Results
           files: "TestResults/**/*.trx"
   
+  comment-preview-links:
+    name: "PR Comment: Preview Links"
+    needs: [build-vscode-ext, build-cli]
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    if: always()
+
+    steps:
+      - uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            Test this change out locally with the following install scripts (Action run [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}))
+            <details>
+              <summary>VSCode (Mac/Linux)</summary>
+              
+              ```sh
+              bash <(curl -s https://raw.githubusercontent.com/Azure/bicep/main/scripts/install_vsix_nightly.sh) --run-id ${{ github.run_id }}
+              ```
+            </details>
+            <details>
+              <summary>Azure CLI (Mac/Linux)</summary>
+              
+              ```sh
+              bash <(curl -s https://raw.githubusercontent.com/Azure/bicep/main/scripts/install_cli_nightly.sh) --run-id ${{ github.run_id }}
+              ```
+            </details>
+
   can-run-live-tests:
     name: Check secret access
     runs-on: ubuntu-latest
