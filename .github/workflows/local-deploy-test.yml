@@ -1,0 +1,39 @@
+name: LocalDeploy Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  local-deploy-k8s:
+    name: Local Deploy (Kubernetes)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nightly
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash <(curl -Ls https://aka.ms/bicep/nightly-cli.sh) --repo anthony-c-martin/bicep
+
+      - name: Start minikube
+        uses: medyagh/setup-minikube@latest
+
+      - name: Copy KubeConfig
+        run: cp ~/.kube/config ./src/Bicep.LocalDeploy/Samples/Kubernetes/kubeconfig.yml
+
+      - name: Run "bicep-on-k8s"
+        run: ~/.azure/bin/bicep local-deploy ./src/Bicep.LocalDeploy/Samples/Kubernetes/bicep-on-k8s.bicepparam
+
+      - name: Kubectl outputs
+        run: |
+          kubectl get service
+          kubectl get deployment
+
+      - name: Wait for endpoint
+        run: sleep 60
+
+      - name: Make request to bicep-on-k8s service
+        run: |
+          curl -X POST http://localhost:80/build -H "Content-Type: application/json" -d "{\"bicepContents\": \"param foo string\"}"

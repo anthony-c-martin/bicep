@@ -38,12 +38,24 @@ public class DefaultNamespaceProvider : INamespaceProvider
         }.ToImmutableDictionary();
     }
 
+
     public NamespaceType? TryGetNamespace(
         ResourceTypesProviderDescriptor descriptor,
         ResourceScope resourceScope,
         IFeatureProvider features,
         BicepSourceFileKind sourceFileKind)
     {
+        if (features.LocalDeployEnabled)
+        {
+            return descriptor.Name switch {
+                SystemNamespaceType.BuiltInName => SystemNamespaceType.Create(descriptor.Alias, features, sourceFileKind),
+                K8sNamespaceType.BuiltInName => K8sNamespaceType.Create(descriptor.Alias),
+                UtilsNamespaceType.BuiltInName => UtilsNamespaceType.Create(descriptor.Alias),
+                GithubNamespaceType.BuiltInName => GithubNamespaceType.Create(descriptor.Alias),
+                _ => null,
+            };
+        }
+
         // If we don't have a types path, we're loading a 'built-in' type
         if (descriptor.TypesBaseUri is null &&
             builtInNamespaceLookup.TryGetValue(descriptor.Name) is { } getProvider)
