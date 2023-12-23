@@ -20,20 +20,21 @@ jobs:
       - name: Start minikube
         uses: medyagh/setup-minikube@latest
 
-      - name: Copy KubeConfig
-        run: cp ~/.kube/config ./src/Bicep.LocalDeploy/Samples/Kubernetes/kubeconfig.yml
+      - name: Run "echo-server"
+        env:
+          BICEP_TRACING_ENABLED: true
+        run: ~/.azure/bin/bicep local-deploy ./src/Bicep.LocalDeploy/samples/e2e/echo-server-e2e.bicepparam
 
-      - name: Run "bicep-on-k8s"
-        run: ~/.azure/bin/bicep local-deploy ./src/Bicep.LocalDeploy/Samples/Kubernetes/bicep-on-k8s.bicepparam
+      - name: Wait for endpoint
+        run: |
+          kubectl wait --for=condition=ready pod -l app=echo-server --timeout=60s
 
       - name: Kubectl outputs
         run: |
-          kubectl get service
-          kubectl get deployment
+          kubectl describe service
+          kubectl describe deployment
+          kubectl describe pod
 
-      - name: Wait for endpoint
-        run: sleep 60
-
-      - name: Make request to bicep-on-k8s service
+      - name: Make request to echo-server service
         run: |
-          curl -X POST http://localhost:80/build -H "Content-Type: application/json" -d "{\"bicepContents\": \"param foo string\"}"
+          curl -I localhost:8080

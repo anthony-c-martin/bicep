@@ -2,12 +2,16 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Deployments.Extensibility.Contract;
+using Azure.Deployments.Extensibility.Core.Exceptions;
 using Azure.Deployments.Extensibility.Core.Json;
+using Azure.Deployments.Extensibility.Data;
 using Azure.Deployments.Extensibility.Messages;
 using Azure.Deployments.Extensibility.Providers.Kubernetes;
+using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
 using Microsoft.WindowsAzure.ResourceStack.Common.Json;
 
 namespace Azure.Bicep.LocalDeploy.Extensibility;
@@ -29,9 +33,16 @@ public partial class K8sExtensibilityProvider : IExtensibilityProvider
     private static async Task<ExtensibilityOperationResponse> ExecuteRequest(ExtensibilityOperationRequest request, Func<Deployments.Extensibility.Core.ExtensibilityOperationRequest, Task<Deployments.Extensibility.Core.ExtensibilityOperationResponse>> func)
     {
         var coreRequest = ToCoreRequest(request);
-        var coreResponse = await func(coreRequest);
+        try 
+        {
+            var coreResponse = await func(coreRequest);
 
-        return FromCoreResponse(coreResponse);
+            return FromCoreResponse(coreResponse);
+        }
+        catch (ExtensibilityException ex) when (ex.Errors.Any())
+        {
+            return new(null, null, ex.Errors.SelectArray(x => new ExtensibilityError(x.Code, x.Message, x.Target.ToString())));
+        }
     }
 
     private static Deployments.Extensibility.Core.ExtensibilityOperationRequest ToCoreRequest(ExtensibilityOperationRequest request)

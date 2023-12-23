@@ -43,19 +43,19 @@ kubectl delete service azure-vote-front
 ```
 
 #### Bicep Compilation Service
-Param file: `samples/kubernetes/bicep-on-k8s.bicepparam`
+Param file: `samples/kubernetes/echo-server.bicepparam`
 
-This will run the [bicep-on-k8s](https://github.com/anthony-c-martin/bicep-on-k8s) service locally.
+This will run the [echo-server](https://ealenn.github.io/Echo-Server/) service locally.
 
-Test it out by submitting a POST request:
+Test it out by submitting a request:
 ```sh
-curl -X POST http://localhost:80/build -H "Content-Type: application/json" -d "{\"bicepContents\": \"param foo string\"}"
+curl -I localhost:8080
 ```
 
 Cleanup:
 ```sh
-kubectl delete deployment bicepbuild 
-kubectl delete service bicepbuild
+kubectl delete deployment echo-server 
+kubectl delete service echo-server
 ```
 
 ### "Wait" functionality

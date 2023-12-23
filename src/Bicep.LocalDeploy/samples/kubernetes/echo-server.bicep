@@ -1,19 +1,21 @@
 @secure()
 param kubeConfig string
 
+param servicePort int = 8080
+
 provider 'kubernetes@1.0.0' with {
   kubeConfig: kubeConfig
   namespace: 'default'
 }
 
 var build = {
-  name: 'bicepbuild'
-  version: 'latest'
-  image: 'ghcr.io/anthony-c-martin/bicep-on-k8s:main'
-  port: 80
+  name: 'echo-server'
+  version: '0.8.12'
+  image: 'ealen/echo-server:0.8.12'
+  containerPort: 80
 }
 
-@description('Configure the BicepBuild deployment')
+@description('Configure the Echo Server deployment')
 resource buildDeploy 'apps/Deployment@v1' = {
   metadata: {
     name: build.name
@@ -40,7 +42,7 @@ resource buildDeploy 'apps/Deployment@v1' = {
             image: build.image
             ports: [
               {
-                containerPort: build.port
+                containerPort: build.containerPort
               }
             ]
           }
@@ -50,19 +52,18 @@ resource buildDeploy 'apps/Deployment@v1' = {
   }
 }
 
-@description('Configure the BicepBuild service')
+@description('Configure the Echo Server service')
 resource buildService 'core/Service@v1' = {
   metadata: {
     name: build.name
-    annotations: {
-      'service.beta.kubernetes.io/azure-dns-label-name': build.name
-    }
   }
   spec: {
     type: 'LoadBalancer'
     ports: [
       {
-        port: build.port
+        port: servicePort
+#disable-next-line BCP036
+        targetPort: build.containerPort
       }
     ]
     selector: {

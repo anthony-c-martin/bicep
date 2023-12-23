@@ -8,6 +8,7 @@ using Azure.Deployments.Core.Definitions;
 using Azure.Deployments.Extensibility.Contract;
 using Azure.Deployments.Extensibility.Data;
 using Azure.Deployments.Extensibility.Messages;
+using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
 using Microsoft.WindowsAzure.ResourceStack.Common.Json;
 using Newtonsoft.Json.Linq;
 
@@ -53,10 +54,13 @@ public class AzExtensibilityProvider : IExtensibilityProvider
 
                 if (result.Deployment.Properties.ProvisioningState != ProvisioningState.Succeeded)
                 {
-                    throw new InvalidOperationException($"Deployment failed with state {result.Deployment.Properties.ProvisioningState}");
+                    return new(
+                        null,
+                        null,
+                        result.Deployment.Properties.Error.Details.SelectArray(x => new ExtensibilityError(x.Code, x.Message, x.Target)));
                 }
 
-                return new ExtensibilityOperationResponse(
+                return new(
                     new ExtensibleResourceData(request.Resource.Type, new JObject{
                         ["outputs"] = result.Deployment.Properties.Outputs?.ToJToken(),
                     }),

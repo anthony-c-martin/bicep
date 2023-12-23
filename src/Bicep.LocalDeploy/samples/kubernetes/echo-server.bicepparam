@@ -1,4 +1,4 @@
-using 'bicep-on-k8s.bicep'
+using 'echo-server.bicep'
 
 // TODO: Fix the below by copying your kubeconfig (~/.kube/config):
 //         cat ~/.kube/config > ../secrets/kubeconfig.yml
