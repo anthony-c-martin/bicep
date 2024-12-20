@@ -1,0 +1,20 @@
+.navbar {
+  height: 40px;
+  z-index: 1;
+}
+
+.creator-container {
+  z-index: 0;
+  position: relative;
+  top: -40px;
+  padding-top: 40px;
+  height: 100%;
+  width: 100%;
+}
+
+.creator-pane {
+  width: 50%;
+  height: 100%;
+  display: inline-block;
+  overflow-y: auto;
+}

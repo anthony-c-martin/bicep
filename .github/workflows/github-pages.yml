@@ -32,6 +32,12 @@ jobs:
         with:
           node-version: 20
 
+      - name: Build bicep-types
+        run: |
+          npm ci
+          npm run build
+        working-directory: ./bicep-types/src/bicep-types
+
       - name: npm ci
         run: npm ci
         working-directory: ./src/playground

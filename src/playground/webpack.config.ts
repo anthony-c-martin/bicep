@@ -17,19 +17,22 @@ const config: Configuration = {
   devtool: 'source-map',
   module: {
     rules: [{
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-    },{
+      test: /\.tsx?$/,
+      use: 'ts-loader',
+      exclude: /node_modules/,
+    }, {
       test: /\.css$/,
       use: ['style-loader', 'css-loader']
     }, {
       test: /\.ttf$/,
       type: 'asset/resource'
+    }, {
+      resourceQuery: /raw/,
+      type: 'asset/source',
     }]
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ],
+    extensions: ['.tsx', '.ts', '.js'],
   },
   plugins: [
     new CopyPlugin({
@@ -39,7 +42,7 @@ const config: Configuration = {
       ],
     }),
     new HtmlWebpackPlugin({
-      title: `Bicep Playground ${buildVersion}`,
+      title: `Bicep Creator ${buildVersion}`,
       favicon: `./src/favicon.ico`,
       template: `./src/index.html`,
     }),
