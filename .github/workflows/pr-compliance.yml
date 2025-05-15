@@ -17,5 +17,5 @@ jobs:
     steps:
       - name: Docs label is missing
         run: |
-          echo "Please either use the '📘 Docs Needed' or '📘 Docs Not Needed' label"
+          run: echo 'All PRs must either have the `📘 Docs Needed` or `📘 Docs Not Needed` label applied' >> $GITHUB_STEP_SUMMARY
           exit 1
