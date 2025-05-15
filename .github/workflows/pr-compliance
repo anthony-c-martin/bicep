@@ -2,10 +2,8 @@ name: PR Compliance
 
 on:
   pull_request:
-    types:
-      - opened
-      - labeled
-      - unlabeled
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   check-for-docs-label:
