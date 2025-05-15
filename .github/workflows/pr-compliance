@@ -2,8 +2,6 @@ name: PR Compliance
 
 on:
   pull_request:
-    branches:
-      - main
     types:
       - opened
       - labeled
